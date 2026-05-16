@@ -50,7 +50,7 @@ st.sidebar.markdown("# ❤️ Menu Principal")
 st.sidebar.markdown("---")
 menu = st.sidebar.radio(
     "",
-    ["🏠 Accueil", "📊 Statistiques", "📈 Visualisations", "🔍 Comparaison", "📉 Corrélations"],
+    ["🏠 Accueil", "📊 Statistiques", "📈 Visualisations", "🔍 Comparaison"],
     format_func=lambda x: f"**{x}**"
 )
 
@@ -313,43 +313,6 @@ elif menu == "🔍 Comparaison":
     
     st.pyplot(fig)
 
-# 
-elif menu == "📉 Corrélations":
-    st.markdown("## 📉 Corrélations avec la mortalité")
-    st.markdown("---")
-    
-    vars_corr = ['age', 'ejection_fraction', 'serum_creatinine', 'time', 
-                 'creatinine_phosphokinase', 'platelets', 'serum_sodium']
-    
-    corr = df[vars_corr + ['DEATH_EVENT']].corr()
-    corr_target = corr['DEATH_EVENT'].drop('DEATH_EVENT').sort_values()
-    
-    # Graphique des corrélations
-    fig, ax = plt.subplots(figsize=(10, 6))
-    colors = ['#e74c3c' if x > 0 else '#2ecc71' for x in corr_target.values]
-    bars = ax.barh(range(len(corr_target)), corr_target.values, color=colors)
-    ax.set_yticks(range(len(corr_target)))
-    ax.set_yticklabels([noms_fr.get(v, v) for v in corr_target.index])
-    ax.set_title("Corrélation des variables avec le décès", fontsize=14, fontweight='bold')
-    ax.set_xlabel("Coefficient de corrélation")
-    ax.axvline(x=0, color='black', linestyle='-', linewidth=1)
-    
-    # Ajouter les valeurs sur les barres
-    for i, (bar, v) in enumerate(zip(bars, corr_target.values)):
-        ax.text(v + (0.02 if v > 0 else -0.08), i, f"{v:.2f}", va='center', fontweight='bold')
-    
-    st.pyplot(fig)
-    
-    # Matrice de corrélation interactive
-    st.subheader("📊 Matrice de corrélation complète")
-    
-    fig, ax = plt.subplots(figsize=(10, 8))
-    sns.heatmap(corr, annot=True, cmap='coolwarm', fmt='.2f', 
-                square=True, linewidths=0.5, ax=ax,
-                cbar_kws={'shrink': 0.8})
-    ax.set_title("Matrice de corrélation", fontsize=14, fontweight='bold')
-    st.pyplot(fig)
-    
     # Interprétation
     st.markdown("---")
     st.subheader("💡 Synthèse des corrélations")
