@@ -313,36 +313,6 @@ elif menu == "🔍 Comparaison":
     
     st.pyplot(fig)
 
-    # Interprétation
-    st.markdown("---")
-    st.subheader("💡 Synthèse des corrélations")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("""
-        <div style="background: #e74c3c; padding: 1rem; border-radius: 15px; color: white;">
-            <h4>⚠️ Facteurs de risque</h4>
-            <p><strong>Corrélation positive → plus la valeur est élevée, plus le risque augmente</strong></p>
-            <ul>
-                <li><strong>serum_creatinine</strong> : insuffisance rénale</li>
-                <li><strong>age</strong> : âge avancé</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown("""
-        <div style="background: #2ecc71; padding: 1rem; border-radius: 15px; color: white;">
-            <h4>🛡️ Facteurs protecteurs</h4>
-            <p><strong>Corrélation négative → plus la valeur est élevée, plus le risque diminue</strong></p>
-            <ul>
-                <li><strong>ejection_fraction</strong> : meilleure fonction cardiaque</li>
-                <li><strong>time</strong> : survie plus longue</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-
 # Sidebar info stylisée
 st.sidebar.markdown(f"""
 <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
