@@ -256,39 +256,39 @@ elif menu == " Comparaison":
     # Statistiques comparatives
     st.subheader("📊 Comparaison des moyennes")
     
-    vivants = df[df['DEATH_EVENT'] == 0][choix]
-    decedes = df[df['DEATH_EVENT'] == 1][choix]
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.markdown(f"""
-        <div style="background: #2ecc71; padding: 1rem; border-radius: 15px; color: white; text-align: center;">
-            <h4>🟢 Vivants</h4>
-            <h3>{vivants.mean():.2f}</h3>
-            <small>(n={len(vivants)})</small>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown(f"""
-        <div style="background: #e74c3c; padding: 1rem; border-radius: 15px; color: white; text-align: center;">
-            <h4>🔴 Décédés</h4>
-            <h3>{decedes.mean():.2f}</h3>
-            <small>(n={len(decedes)})</small>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col3:
-        diff = decedes.mean() - vivants.mean()
-        color = "#e74c3c" if diff > 0 else "#2ecc71"
-        st.markdown(f"""
-        <div style="background: {color}; padding: 1rem; border-radius: 15px; color: white; text-align: center;">
-            <h4> Différence</h4>
-            <h3>{diff:+.2f}</h3>
-        </div>
-        """, unsafe_allow_html=True)
-    
+        vivants = df[df['DEATH_EVENT'] == 0][choix]
+        decedes = df[df['DEATH_EVENT'] == 1][choix]
+        
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            st.markdown(f"""
+            <div style="background: #2ecc71; padding: 1rem; border-radius: 15px; color: white; text-align: center;">
+                <h4>🟢 Vivants</h4>
+                <h3>{vivants.mean():.2f}</h3>
+                <small>(n={len(vivants)})</small>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col2:
+            st.markdown(f"""
+            <div style="background: #e74c3c; padding: 1rem; border-radius: 15px; color: white; text-align: center;">
+                <h4>🔴 Décédés</h4>
+                <h3>{decedes.mean():.2f}</h3>
+                <small>(n={len(decedes)})</small>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col3:
+            diff = decedes.mean() - vivants.mean()
+            color = "#e74c3c" if diff > 0 else "#2ecc71"
+            st.markdown(f"""
+            <div style="background: {color}; padding: 1rem; border-radius: 15px; color: white; text-align: center;">
+                <h4> Différence</h4>
+                <h3>{diff:+.2f}</h3>
+            </div>
+            """, unsafe_allow_html=True)
+        
     # Taux de mortalité par catégorie
     st.markdown("---")
     st.subheader("📊 Taux de mortalité par catégorie")
@@ -320,6 +320,5 @@ st.sidebar.markdown(f"""
 <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
     <small>📊 Dataset : {len(df)} patients<br>
     ❤️ Décès : {df['DEATH_EVENT'].sum()} ({df['DEATH_EVENT'].mean()*100:.0f}%)<br>
-    🛠️ Built with Streamlit</small>
 </div>
 """, unsafe_allow_html=True)
