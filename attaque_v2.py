@@ -46,6 +46,7 @@ def load_data():
     df['DEATH_EVENT'] = df['DEATH_EVENT'].astype(int)
     
     return df
+df = load_data()
 # Menu stylisé
 st.sidebar.markdown("#  Menu Principal")
 st.sidebar.markdown("---")
