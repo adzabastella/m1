@@ -37,16 +37,17 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Chargement des données
-@st.cache_data
+@st.cache_data 
 def load_data():
-    df = pd.read_csv("attaque_cardiaque.csv", sep=";")
+    df = pd.read_csv("attaque_cardiaque.csv") 
+    
+    # Supprime les espaces et caractères invisibles des noms de colonnes
+    df.columns = df.columns.str.strip()
     df['DEATH_EVENT'] = df['DEATH_EVENT'].astype(int)
+    
     return df
-
-df = load_data()
-
 # Menu stylisé
-st.sidebar.markdown("# ❤️ Menu Principal")
+st.sidebar.markdown("#  Menu Principal")
 st.sidebar.markdown("---")
 menu = st.sidebar.radio(
     "",
@@ -77,7 +78,7 @@ if menu == "🏠 Accueil":
     with col2:
         st.markdown(f"""
         <div class="metric-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-            <h3>📋 Variables</h3>
+            <h3> Variables</h3>
             <h2>{len(df.columns)}</h2>
         </div>
         """, unsafe_allow_html=True)
@@ -103,7 +104,7 @@ if menu == "🏠 Accueil":
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader("🎯 Variables principales")
+        st.subheader(" Variables principales")
         st.markdown("""
         - **age** : Âge du patient
         - **ejection_fraction** : Fraction d'éjection (%)
@@ -122,7 +123,7 @@ if menu == "🏠 Accueil":
         ax.set_ylabel("")
         st.pyplot(fig)
     
-    st.info("👈 **Utilisez le menu à gauche** pour explorer les données en détail")
+    st.info(" **Utilisez le menu à gauche** pour explorer les données en détail")
 
 # statistiques
 elif menu == "📊 Statistiques":
@@ -220,8 +221,8 @@ elif menu == "📈 Visualisations":
             st.pyplot(fig)
 
 # comparaison
-elif menu == "🔍 Comparaison":
-    st.markdown("## 🔍 Vivants vs Décédés")
+elif menu == " Comparaison":
+    st.markdown("##  Vivants vs Décédés")
     st.markdown("---")
     
     vars_num = ['age', 'ejection_fraction', 'serum_creatinine', 'time', 
@@ -282,7 +283,7 @@ elif menu == "🔍 Comparaison":
         color = "#e74c3c" if diff > 0 else "#2ecc71"
         st.markdown(f"""
         <div style="background: {color}; padding: 1rem; border-radius: 15px; color: white; text-align: center;">
-            <h4>📊 Différence</h4>
+            <h4> Différence</h4>
             <h3>{diff:+.2f}</h3>
         </div>
         """, unsafe_allow_html=True)
