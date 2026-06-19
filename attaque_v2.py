@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 
 st.set_page_config(page_title="Analyse Cardiaque", layout="wide", page_icon="❤️")
 
-# Style personnalisé
+# Style personnalisée
 st.markdown("""
 <style>
     /* En-tête principal */
