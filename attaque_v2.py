@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 
 st.set_page_config(page_title="Analyse Cardiaque", layout="wide", page_icon="❤️")
 
-# Style personnalisée
+# Style personnalisé
 st.markdown("""
 <style>
     /* En-tête principal */
@@ -46,9 +46,11 @@ def load_data():
     df['DEATH_EVENT'] = df['DEATH_EVENT'].astype(int)
     
     return df
+
 df = load_data()
+
 # Menu stylisé
-st.sidebar.markdown("#  Menu Principal")
+st.sidebar.markdown("# Menu Principal")
 st.sidebar.markdown("---")
 menu = st.sidebar.radio(
     "",
@@ -105,7 +107,7 @@ if menu == "🏠 Accueil":
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader(" Variables principales")
+        st.subheader("Variables principales")
         st.markdown("""
         - **age** : Âge du patient
         - **ejection_fraction** : Fraction d'éjection (%)
@@ -119,12 +121,12 @@ if menu == "🏠 Accueil":
         fig, ax = plt.subplots(figsize=(8, 4))
         colors = ['#2ecc71', '#e74c3c']
         df['DEATH_EVENT'].value_counts().plot(kind='pie', autopct='%1.1f%%', 
-                                                colors=colors, ax=ax, shadow=True)
+                                            colors=colors, ax=ax, shadow=True)
         ax.set_title("Répartition Vivants vs Décédés", fontsize=14)
         ax.set_ylabel("")
         st.pyplot(fig)
     
-    st.info(" **Utilisez le menu à gauche** pour explorer les données en détail")
+    st.info("💡 **Utilisez le menu à gauche** pour explorer les données en détail")
 
 # statistiques
 elif menu == "📊 Statistiques":
@@ -222,8 +224,8 @@ elif menu == "📈 Visualisations":
             st.pyplot(fig)
 
 # comparaison
-elif menu == " Comparaison":
-    st.markdown("##  Vivants vs Décédés")
+elif menu == "🔍 Comparaison":
+    st.markdown("## Vivants vs Décédés")
     st.markdown("---")
     
     vars_num = ['age', 'ejection_fraction', 'serum_creatinine', 'time', 
@@ -240,12 +242,9 @@ elif menu == " Comparaison":
     
     # Boxplot coloré
     fig, ax = plt.subplots(figsize=(10, 6))
-    bp = sns.boxplot(x='DEATH_EVENT', y=choix, data=df, ax=ax)
+    sns.boxplot(x='DEATH_EVENT', y=choix, data=df, ax=ax, palette=['#2ecc71', '#e74c3c'])
     
-    for i, patch in enumerate(ax.artists):
-        patch.set_facecolor('#2ecc71' if i == 0 else '#e74c3c')
-        patch.set_alpha(0.7)
-    
+    ax.set_xticks([0, 1])
     ax.set_xticklabels(['🟢 Vivant', '🔴 Décédé'])
     ax.set_title(f"Distribution de {noms_fr[choix]} selon le statut", fontsize=14, fontweight='bold')
     ax.set_ylabel(noms_fr[choix])
@@ -256,38 +255,38 @@ elif menu == " Comparaison":
     # Statistiques comparatives
     st.subheader("📊 Comparaison des moyennes")
     
-        vivants = df[df['DEATH_EVENT'] == 0][choix]
-        decedes = df[df['DEATH_EVENT'] == 1][choix]
+    vivants = df[df['DEATH_EVENT'] == 0][choix]
+    decedes = df[df['DEATH_EVENT'] == 1][choix]
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown(f"""
+        <div style="background: #2ecc71; padding: 1rem; border-radius: 15px; color: white; text-align: center;">
+            <h4>🟢 Vivants</h4>
+            <h3>{vivants.mean():.2f}</h3>
+            <small>(n={len(vivants)})</small>
+        </div>
+        """, unsafe_allow_html=True)
         
-        col1, col2, col3 = st.columns(3)
+    with col2:
+        st.markdown(f"""
+        <div style="background: #e74c3c; padding: 1rem; border-radius: 15px; color: white; text-align: center;">
+            <h4>🔴 Décédés</h4>
+            <h3>{decedes.mean():.2f}</h3>
+            <small>(n={len(decedes)})</small>
+        </div>
+        """, unsafe_allow_html=True)
         
-        with col1:
-            st.markdown(f"""
-            <div style="background: #2ecc71; padding: 1rem; border-radius: 15px; color: white; text-align: center;">
-                <h4>🟢 Vivants</h4>
-                <h3>{vivants.mean():.2f}</h3>
-                <small>(n={len(vivants)})</small>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with col2:
-            st.markdown(f"""
-            <div style="background: #e74c3c; padding: 1rem; border-radius: 15px; color: white; text-align: center;">
-                <h4>🔴 Décédés</h4>
-                <h3>{decedes.mean():.2f}</h3>
-                <small>(n={len(decedes)})</small>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with col3:
-            diff = decedes.mean() - vivants.mean()
-            color = "#e74c3c" if diff > 0 else "#2ecc71"
-            st.markdown(f"""
-            <div style="background: {color}; padding: 1rem; border-radius: 15px; color: white; text-align: center;">
-                <h4> Différence</h4>
-                <h3>{diff:+.2f}</h3>
-            </div>
-            """, unsafe_allow_html=True)
+    with col3:
+        diff = decedes.mean() - vivants.mean()
+        color = "#e74c3c" if diff > 0 else "#2ecc71"
+        st.markdown(f"""
+        <div style="background: {color}; padding: 1rem; border-radius: 15px; color: white; text-align: center;">
+            <h4> Différence</h4>
+            <h3>{diff:+.2f}</h3>
+        </div>
+        """, unsafe_allow_html=True)
         
     # Taux de mortalité par catégorie
     st.markdown("---")
@@ -317,8 +316,8 @@ elif menu == " Comparaison":
 
 # Sidebar info stylisée
 st.sidebar.markdown(f"""
-<div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+<div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px; color: white; text-align: center;">
     <small>📊 Dataset : {len(df)} patients<br>
-    ❤️ Décès : {df['DEATH_EVENT'].sum()} ({df['DEATH_EVENT'].mean()*100:.0f}%)<br>
+    ❤️ Décès : {df['DEATH_EVENT'].sum()} ({df['DEATH_EVENT'].mean()*100:.0f}%)</small>
 </div>
 """, unsafe_allow_html=True)
